@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Test</title>
+	<meta name="generator" content="TextMate http://macromates.com/">
+	<meta name="author" content="Robert Palmer">
+	<!-- Date: 2010-12-15 -->
+	<script type="text/javascript" charset="utf-8">
+		// if (navigator.geolocation) {
+		//   navigator.geolocation.watchPosition(function(position) {
+		// 	console.log(position.coords.latitude + " " + position.coords.longitude);
+		//   }); 
+		// }
+		
+		var load = function(scriptName) {
+			console.log("loading " + scriptName);
+			
+			var script = document.createElement("script");
+			script.setAttribute("type", "text/javascript");
+			script.setAttribute("src", scriptName);
+			
+			document.body.appendChild(script);
+		}
+		
+		var Linccer = function() {
+			var latitude, longitude;
+			
+			var updateEnvironment = function() {
+				setTimeout(updateEnvironment, 25 * 1000);
+				if (this.latitude == null || this.longitude == null) {
+					return;
+				}
+				
+				load("http://localhost:4567/environment.js?latitude=" + this.latitude 
+													  + "&longitude=" + this.longitude
+													       + "&time=" + new Date().getTime()); // preventing caching
+			}
+			
+			this.received = function(data) {
+				console.log(data.content);
+			}
+						
+			this.setEnvirenmentCoordinates =function(latitude, longitude, accuracy) {				
+				this.latitude = latitude;
+				this.longitude = longitude; 
+				
+				updateEnvironment();
+			}
+			
+			this.send = function(mode, data) {
+				
+				
+				load("http://localhost:4567/send.js?mode=" + mode
+												 + "&" + data);
+			}
+			
+			this.receive = function(mode) {
+				load("http://localhost:4567/reveive.js?mode=" + mode);
+			}
+			
+			return this;	
+		}
+		
+		window.onload = function() {
+			linccer = Linccer();
+			linccer.setEnvirenmentCoordinates(13, 45, 100);
+		}
+		
+		function receive_action() {
+			linccer.receive("one-to-one")
+		}
+		
+		function send_action() {
+			// data = [{
+			// 				type: "text/plain",
+			// 				content: "Hallo"
+			// 			}]
+			data = "type=text/plain&data[][content]=\"Hallo\"";
+			
+			
+			
+			
+			linccer.send("one-to_one", data);
+		}
+		
+	</script>
+</head>
+<body>
+<form method="POST" action="http://filecache.beta.hoccer.com/?expires_in=120">
+	File: <input type="file" name="upload[filename]" />
+	<input type="submit" />
+	
+	<a href="javascript:receive_action()">Receive</a>
+	<a href="javascript:send_action()">Send</a>
+	
+</form>
+
+
+
+</body>
+</html>

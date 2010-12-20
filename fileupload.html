@@ -7,13 +7,13 @@
 	<meta name="generator" content="TextMate http://macromates.com/">
 	<meta name="author" content="Robert Palmer">
 	<!-- Date: 2010-12-15 -->
+	<script src="lib/jquery-1.4.4.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
 		// if (navigator.geolocation) {
 		//   navigator.geolocation.watchPosition(function(position) {
 		// 	console.log(position.coords.latitude + " " + position.coords.longitude);
 		//   }); 
 		// }
-		
 		var load = function(scriptName) {
 			console.log("loading " + scriptName);
 			
@@ -25,42 +25,49 @@
 		}
 		
 		var Linccer = function() {
+			var that = this;
 			var latitude, longitude;
 			
 			var updateEnvironment = function() {
 				setTimeout(updateEnvironment, 25 * 1000);
-				if (this.latitude == null || this.longitude == null) {
+				if (that.latitude == null || that.longitude == null) {
 					return;
 				}
 				
-				load("http://localhost:4567/environment.js?latitude=" + this.latitude 
-													  + "&longitude=" + this.longitude
-													       + "&time=" + new Date().getTime()); // preventing caching
+				load("http://localhost:4567/environment.js?latitude=" + that.latitude 
+													  + "&longitude=" + that.longitude
+													// preventing caching by adding timestamp
+													       + "&time=" + new Date().getTime()); 
 			}
 			
-			this.received = function(data) {
+			that.onReceived = function(data) {
 				console.log(data.content);
 			}
+			
+			that.onSend = function(data) {
+				console.log("send");
+			}
 						
-			this.setEnvirenmentCoordinates =function(latitude, longitude, accuracy) {				
-				this.latitude = latitude;
-				this.longitude = longitude; 
+			that.setEnvirenmentCoordinates =function(latitude, longitude, accuracy) {				
+				that.latitude = latitude;
+				that.longitude = longitude; 
 				
 				updateEnvironment();
 			}
 			
-			this.send = function(mode, data) {
+			that.send = function(mode, data) {
+				var send = { "data" : data }
 				
 				
 				load("http://localhost:4567/send.js?mode=" + mode
-												 + "&" + data);
+												 + "&" + $.param(send));
 			}
 			
-			this.receive = function(mode) {
+			that.receive = function(mode) {
 				load("http://localhost:4567/reveive.js?mode=" + mode);
 			}
 			
-			return this;	
+			return that;	
 		}
 		
 		window.onload = function() {
@@ -73,15 +80,13 @@
 		}
 		
 		function send_action() {
-			// data = [{
-			// 				type: "text/plain",
-			// 				content: "Hallo"
-			// 			}]
-			data = "type=text/plain&data[][content]=\"Hallo\"";
-			
-			
-			
-			
+			var data = [
+					{
+						"type": "text/plain",
+						"content": "Hallo" 
+					}
+				];
+				 
 			linccer.send("one-to_one", data);
 		}
 		

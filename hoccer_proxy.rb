@@ -9,11 +9,11 @@ end
 get "/send.js" do 
   puts params.inspect
 
-  "linccer.rockOn()"
+  "linccer.onSend()"
 end
 
 get "/reveive.js" do
   puts params.inspect
 
-  "linccer.received({content: \"hallo\"})"
+  "linccer.onReceived({content: \"hallo\"})"
 end

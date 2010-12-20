@@ -20,6 +20,18 @@
 		window.onload = function() {
 			linccer = Linccer();
 			linccer.setEnvirenmentCoordinates(13, 45, 100);
+			
+			linccer.on('sent', function(data) {
+				console.log("sent!!!!!! " + data);
+			});
+			
+			linccer.on('updated environment', function(data) {
+				console.log('updated!!!!!');
+			});
+			
+			linccer.on('received', function(data) {
+				console.log("received: " + data.content);
+			});
 		}
 		
 		function receive_action() {

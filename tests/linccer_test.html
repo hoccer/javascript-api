@@ -4,36 +4,55 @@
 <head>
   <script src="http://code.jquery.com/jquery-latest.js"></script>
   <link rel="stylesheet" href="http://github.com/jquery/qunit/raw/master/qunit/qunit.css" type="text/css" media="screen" />
-<script type="text/javascript" src="http://github.com/jquery/qunit/raw/master/qunit/qunit.js"></script>
+	<script type="text/javascript" src="http://github.com/jquery/qunit/raw/master/qunit/qunit.js"></script>
+	<script src="../lib/hoccer.js" type="text/javascript" charset="utf-8"></script>
+	
 
   <script>
   $(document).ready(function(){
-    
-test("a basic test example", function() {
-  ok( true, "this test is fine" );
-  var value = "hello";
-  equals( "hello", value, "We expect value to be hello" );
-});
 
-module("Module A");
+		module("Module A");    
+		asyncTest("linccer setup", 1, function() {
+			stop(3000)
 
-test("first test within module", function() {
-  ok( true, "all pass" );
-});
+		  var linccer = Linccer();
+		  linccer.on('ready', function() {
+				ok( linccer.isReady, "linccer did become ready");
+				start();
+			});
 
-test("second test within module", function() {
-  ok( true, "all pass" );
-});
+			linccer.setEnvironmentCoordinates(12,13,100);
+		});
+		
+		asyncTest('environment update', 1, function() {
+			stop(3000);
+			
+			var linccer = Linccer();
+		  linccer.on('updated_environment', function() {
+				ok( true, "linccer did updated the environment" );
+				start();
+			});
 
-module("Module B");
+			linccer.setEnvironmentCoordinates(23, 42, 100);
+		});
+		
+		asyncTest('linking', 1, function() {
+			stop(3000);
+			
+			var sender = Linccer();
+			var receiver = Linccer();
+			
+			
+			
+			sender.setEnvironmentCoordinates(52, 13, 100);
+			receiver.setEnvironmentCoordinates(52, 13, 100);
+			
+			sender.on('ready')
+			
+		});
+  
 
-test("some other test", function() {
-  expect(2);
-  equals( true, false, "failing test" );
-  equals( true, true, "passing test" );
-});
-
-  });
+	});
   </script>
   
 </head>

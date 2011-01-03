@@ -11,12 +11,6 @@
 	<script src="lib/hoccer.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script type="text/javascript" charset="utf-8">
-		// if (navigator.geolocation) {
-		//   navigator.geolocation.watchPosition(function(position) {
-		// 	console.log(position.coords.latitude + " " + position.coords.longitude);
-		//   }); 
-		// }
-		
 		window.onload = function() {
 			linccer = Linccer();
 			linccer.setEnvirenmentCoordinates(13, 45, 100);
@@ -30,31 +24,36 @@
 			});
 			
 			linccer.on('received', function(data) {
-				console.log("received: " + data.content);
+				console.log("received: " + data[0]["0"].content);
+				document.getElementById("input").value = data[0]["0"].content;
 			});
 		}
 		
 		function receive_action() {
-			linccer.receive("one-to-one")
+			linccer.receive("one-to-many")
 		}
 		
 		function send_action() {
+			var content = document.getElementById("input").value;
 			var data = [
 					{
 						"type": "text/plain",
-						"content": "Hallo" 
+						"content": content
 					}
 				];
 				 
-			linccer.send("one-to_one", data);
+			linccer.send("one-to-many", data);
 		}
 		
 	</script>
 </head>
 <body>
 <form method="POST" action="http://filecache.beta.hoccer.com/?expires_in=120">
-	File: <input type="file" name="upload[filename]" />
-	<input type="submit" />
+	<!-- File: <input type="file" name="upload[filename]" />
+	<input type="submit" /> -->
+	
+	<input id="input" type="text" />
+	<br />
 	
 	<a href="javascript:receive_action()">Receive</a>
 	<a href="javascript:send_action()">Send</a>

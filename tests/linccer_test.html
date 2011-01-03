@@ -85,7 +85,6 @@
 			receiver.on('ready', function() {	send();	});
 			
 			sender.on('error', function(error) {
-				console.log("error");
 				equal(error.message, "timeout");
 				
 				start()
@@ -114,7 +113,6 @@
 			sender2.on('ready', function() {send();	});
 			
 			sender1.on('error', function(error) {
-				console.log("error");
 				equal(error.message, "conflict");
 				
 				start()
@@ -142,7 +140,6 @@
 			receiver2.on('ready', function() {send();	});
 			
 			receiver1.on('error', function(error) {
-				console.log("error");
 				equal(error.message, "conflict");
 				
 				start()

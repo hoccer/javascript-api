@@ -12,15 +12,16 @@
   $(document).ready(function(){
 
 		module("Module A");    
-		asyncTest("linccer setup", 1, function() {
+		asyncTest("linccer setup", 2, function() {
 			stop(3000)
-
+		
 		  var linccer = Linccer();
 		  linccer.on('ready', function() {
-				ok( linccer.isReady, "linccer did become ready");
+				ok( linccer.isReady(), "linccer did become ready");
 				start();
 			});
-
+			
+			ok(!linccer.isReady(), "linccer should not be ready before first update");
 			linccer.setEnvironmentCoordinates(12,13,100);
 		});
 		
@@ -32,22 +33,46 @@
 				ok( true, "linccer did updated the environment" );
 				start();
 			});
-
+		
 			linccer.setEnvironmentCoordinates(23, 42, 100);
 		});
 		
-		asyncTest('linking', 1, function() {
-			stop(3000);
+		asyncTest('linking', 2, function() {
+			stop(5000);
 			
-			var sender = Linccer();
-			var receiver = Linccer();
-			
-			
-			
+			var sent = false;
+			var sender = new Linccer("sender");
 			sender.setEnvironmentCoordinates(52, 13, 100);
-			receiver.setEnvironmentCoordinates(52, 13, 100);
 			
-			sender.on('ready')
+			var receiver = new Linccer("receiver");
+			setTimeout(function(){
+				receiver.setEnvironmentCoordinates(52, 13, 100);
+			}, 200);
+			
+			sender.on('ready', function() {
+				send();
+			});
+			
+			receiver.on('ready', function() {
+				send();
+			});
+			
+			receiver.on('received', function(data) {
+				ok( true, 'received');
+				deepEqual(data, [{"hallo": "world"}]);
+				start();
+			});
+			
+			var send = function() {
+				console.log("ready " + sender.isReady() + " " + receiver.isReady());
+				if (sender.isReady() && receiver.isReady() && !sent) {
+					sender.send('one-to-one', {"hallo": "world"});
+					receiver.receive('one-to-one');
+					
+					sent = true;
+				}
+			}
+			
 			
 		});
   

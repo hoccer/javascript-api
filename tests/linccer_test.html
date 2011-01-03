@@ -5,7 +5,7 @@
   <script src="http://code.jquery.com/jquery-latest.js"></script>
   <link rel="stylesheet" href="http://github.com/jquery/qunit/raw/master/qunit/qunit.css" type="text/css" media="screen" />
 	<script type="text/javascript" src="http://github.com/jquery/qunit/raw/master/qunit/qunit.js"></script>
-	<script src="../lib/hoccer.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/linccer.js" type="text/javascript" charset="utf-8"></script>
 	
 
   <script>
@@ -41,14 +41,12 @@
 			stop(5000);
 			
 			var sent = false;
-			var sender = new Linccer("sender");
+			var sender = Linccer("sender");
 			sender.setEnvironmentCoordinates(52, 13, 100);
 			
-			var receiver = new Linccer("receiver");
-			setTimeout(function(){
-				receiver.setEnvironmentCoordinates(52, 13, 100);
-			}, 200);
-			
+			var receiver = Linccer("receiver");
+			receiver.setEnvironmentCoordinates(52, 13, 100);
+
 			sender.on('ready', function() {
 				send();
 			});
@@ -64,7 +62,6 @@
 			});
 			
 			var send = function() {
-				console.log("ready " + sender.isReady() + " " + receiver.isReady());
 				if (sender.isReady() && receiver.isReady() && !sent) {
 					sender.send('one-to-one', {"hallo": "world"});
 					receiver.receive('one-to-one');
@@ -72,10 +69,94 @@
 					sent = true;
 				}
 			}
-			
-			
 		});
   
+		asyncTest('sending without receiver', 1, function() {
+			stop(4000);
+
+			var sent = false;
+			var sender = Linccer("sender");
+			sender.setEnvironmentCoordinates(52, 13, 100);
+			
+			var receiver = Linccer("receiver");
+			receiver.setEnvironmentCoordinates(52, 13, 100);
+
+			sender.on('ready', function() { send();	});
+			receiver.on('ready', function() {	send();	});
+			
+			sender.on('error', function(error) {
+				console.log("error");
+				equal(error.message, "timeout");
+				
+				start()
+			});
+			
+			var send = function() {
+				if (sender.isReady() && receiver.isReady() && !sent) {
+					sender.send('one-to-one', {"hallo": "world"});
+					
+					sent = true;
+				}
+			}
+		});
+		
+		asyncTest('collision in sending', 1, function() {
+			stop(4000);
+
+			var sent = false;
+			var sender1 = Linccer("sender");
+			sender1.setEnvironmentCoordinates(55, 13, 100);
+			
+			var sender2 = Linccer("receiver");
+			sender2.setEnvironmentCoordinates(55, 13, 100);
+
+			sender1.on('ready', function() { send();	});
+			sender2.on('ready', function() {send();	});
+			
+			sender1.on('error', function(error) {
+				console.log("error");
+				equal(error.message, "conflict");
+				
+				start()
+			});
+			
+			var send = function() {
+				if (sender1.isReady() && sender2.isReady() && !sent) {
+					sender1.send('one-to-one', {"hallo": "world"});
+					sender2.send('one-to-one', {"uhh": "ohh"});
+					sent = true;
+				}
+			}
+		});
+		
+		asyncTest('collision in receiving', 1, function() {
+			stop(4000);
+
+			var receiver1 = Linccer("sender");
+			receiver1.setEnvironmentCoordinates(57, 13, 100);
+			
+			var receiver2 = Linccer("receiver");
+			receiver2.setEnvironmentCoordinates(57, 13, 100);
+
+			receiver1.on('ready', function() { send();	});
+			receiver2.on('ready', function() {send();	});
+			
+			receiver1.on('error', function(error) {
+				console.log("error");
+				equal(error.message, "conflict");
+				
+				start()
+			});
+			
+			var send = function() {
+				if (receiver1.isReady() && receiver2.isReady()) {
+					receiver1.receive('one-to-one');
+					receiver2.receive('one-to-one');
+					sent = true;
+				}
+			}
+		});
+		
 
 	});
   </script>

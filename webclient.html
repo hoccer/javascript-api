@@ -16,10 +16,12 @@
 	
 	<script type="text/javascript" charset="utf-8">
 		window.onload = function() {
-			FileCache("upload_form");
-			
-
+			var fileCache = FileCache("upload_form");
 			var linccer = Linccer();
+			
+			fileCache.on('loaded', function(data) {
+				    console.log(data);
+			});
 			
 			linccer.on('sent', function(data) {
 				console.log("sent!!!!!! " + data);

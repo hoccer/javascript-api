@@ -40,7 +40,6 @@
 		asyncTest('linking', 2, function() {
 			stop(5000);
 			
-			var sent = false;
 			var sender = Linccer("sender");
 			sender.setEnvironmentCoordinates(52, 13, 100);
 			
@@ -62,7 +61,7 @@
 			});
 			
 			var send = function() {
-				if (sender.isReady() && receiver.isReady() && !sent) {
+				if (sender.isReady() && receiver.isReady()) {
 					sender.send('one-to-one', {"hallo": "world"});
 					receiver.receive('one-to-one');
 					
@@ -102,14 +101,13 @@
 		asyncTest('collision in sending', 1, function() {
 			stop(4000);
 
-			var sent = false;
 			var sender1 = Linccer("sender");
 			sender1.setEnvironmentCoordinates(55, 13, 100);
 			
 			var sender2 = Linccer("receiver");
 			sender2.setEnvironmentCoordinates(55, 13, 100);
 
-			sender1.on('ready', function() { send();	});
+			sender1.on('ready', function() { send(); });
 			sender2.on('ready', function() {send();	});
 			
 			sender1.on('error', function(error) {
@@ -119,7 +117,7 @@
 			});
 			
 			var send = function() {
-				if (sender1.isReady() && sender2.isReady() && !sent) {
+				if (sender1.isReady() && sender2.isReady()) {
 					sender1.send('one-to-one', {"hallo": "world"});
 					sender2.send('one-to-one', {"uhh": "ohh"});
 					sent = true;
@@ -153,8 +151,6 @@
 				}
 			}
 		});
-		
-
 	});
   </script>
   

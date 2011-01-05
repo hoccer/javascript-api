@@ -36,7 +36,7 @@
 			};
 			
 			that.showUploadingState = function() {
-				$("#").css("display": "none");
+				// $("#").css("display": "none");
 				
 			};
 			
@@ -64,7 +64,7 @@
 			});
 			
 			fileCache.on('loaded', function(uri) {
-		    console.log(data);
+		    console.log(uri);
 			});
 			
 			linccer.on('sent', function(data) {
@@ -136,7 +136,7 @@
 		</div>
 
 		<div>
-			<form method="POST" action="http://localhost:9999/v3/?expires_in=120" id="upload_form">
+			<form method="POST"  enctype="multipart/form-data" action="http://localhost:9999/v3/?expires_in=120" id="upload_form">
 				File: <input type="file" name="upload[filename]" />
 				<input type="submit" />
 			</form>	

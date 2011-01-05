@@ -1,0 +1,3 @@
+[submodule "lib/file-uploader"]
+	path = lib/file-uploader
+	url = git@github.com:hoccer/file-uploader.git

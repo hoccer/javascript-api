@@ -2,28 +2,29 @@
                     "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-  <script src="http://code.jquery.com/jquery-latest.js"></script>
-  <link rel="stylesheet" href="http://github.com/jquery/qunit/raw/master/qunit/qunit.css" type="text/css" media="screen" />
-	<script type="text/javascript" src="http://github.com/jquery/qunit/raw/master/qunit/qunit.js"></script>
+	<script src="../lib/jquery-1.4.4.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="../lib/qunit/qunit.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<script src="../lib/qunit/qunit.js" type="text/javascript" charset="utf-8"></script>
+
 	<script src="../lib/base.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../lib/linccer.js" type="text/javascript" charset="utf-8"></script>
 	
-
-  <script>
+	<script>
   $(document).ready(function(){
 
 		module("Module A");    
 		asyncTest("linccer setup", 2, function() {
-			stop(3000)
-		
-		  var linccer = Linccer();
+			var linccer = Linccer();
 		  linccer.on('ready', function() {
 				ok( linccer.isReady(), "linccer did become ready");
 				start();
+				delete linccer;
 			});
 			
 			ok(!linccer.isReady(), "linccer should not be ready before first update");
 			linccer.setEnvironmentCoordinates(12,13,100);
+			stop(3000)
+			
 		});
 		
 		asyncTest('environment update', 1, function() {
@@ -46,7 +47,7 @@
 			
 			var receiver = Linccer("receiver");
 			receiver.setEnvironmentCoordinates(52, 13, 100);
-
+		
 			sender.on('ready', function() {
 				send();
 			});
@@ -70,17 +71,17 @@
 				}
 			}
 		});
-  
+		  
 		asyncTest('sending without receiver', 1, function() {
 			stop(4000);
-
+		
 			var sent = false;
 			var sender = Linccer("sender");
 			sender.setEnvironmentCoordinates(52, 13, 100);
 			
 			var receiver = Linccer("receiver");
 			receiver.setEnvironmentCoordinates(52, 13, 100);
-
+		
 			sender.on('ready', function() { send();	});
 			receiver.on('ready', function() {	send();	});
 			
@@ -101,13 +102,13 @@
 		
 		asyncTest('collision in sending', 1, function() {
 			stop(4000);
-
+		
 			var sender1 = Linccer("sender");
 			sender1.setEnvironmentCoordinates(55, 13, 100);
 			
 			var sender2 = Linccer("receiver");
 			sender2.setEnvironmentCoordinates(55, 13, 100);
-
+		
 			sender1.on('ready', function() { send(); });
 			sender2.on('ready', function() {send();	});
 			
@@ -128,13 +129,13 @@
 		
 		asyncTest('collision in receiving', 1, function() {
 			stop(4000);
-
+		
 			var receiver1 = Linccer("sender");
 			receiver1.setEnvironmentCoordinates(57, 13, 100);
 			
 			var receiver2 = Linccer("receiver");
 			receiver2.setEnvironmentCoordinates(57, 13, 100);
-
+		
 			receiver1.on('ready', function() { send();	});
 			receiver2.on('ready', function() {send();	});
 			

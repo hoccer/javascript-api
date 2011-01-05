@@ -15,12 +15,56 @@
 	<script src="lib/filecache.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script type="text/javascript" charset="utf-8">
-		window.onload = function() {
+		var WebClient = function() {
+			that = {};
+			observable(that);
+						
+			$("#sendButton").click(function() { that.fire('send'); } );
+			$("#receiveButton").click(function() {that.fire('receive') } );
+			
+			that.enableSend = function() {
+				
+			};
+			
+			that.enableReceive = function() {
+				
+			};
+			
+			that.displayLocation = function(location) {
+				$("#waiting").css("display", "none");
+				$("#coordinates").css("display", "inline");
+			};
+			
+			that.showUploadingState = function() {
+				$("#").css("display": "none");
+				
+			};
+			
+			that.uploadReady = function() {
+				
+			}
+			
+			return that;
+		}
+	
+	
+		$(document).ready(function() {
+			console.log("loaded");
+			
 			var fileCache = FileCache("upload_form");
 			var linccer = Linccer();
+		  var client = WebClient();
+		  
+		  client.on('send', function() {
+				console.log('sending');
+			});
+
+			client.on('receive', function() {
+				console.log('receiving');
+			});
 			
-			fileCache.on('loaded', function(data) {
-				    console.log(data);
+			fileCache.on('loaded', function(uri) {
+		    console.log(data);
 			});
 			
 			linccer.on('sent', function(data) {
@@ -28,8 +72,7 @@
 			});
 			
 			linccer.on('ready', function() {
-				$("#waiting").css("display", "none");
-				$("#coordinates").css("display", "inline");
+				client.displayLocation();
 			})
 			
 			linccer.on('updated_environment', function(data) {
@@ -54,9 +97,10 @@
 	        console.log("error:" + error.message);
 	      }
 	      , {maximumAge:Infinity}); 
-	    }			
-		}
+	    }
+		});
 		
+
 		function receive_action() {
 			linccer.receive("one-to-many")
 		}
@@ -64,13 +108,14 @@
 		function send_action() {
 			var content = document.getElementById("input").value;
 			var data = [
-					{
-						"type": "text/plain",
-						"content": content
+			   {
+					"type": "text/plain",
+					"content": content
 					}
-				];
-				 
+			];
+			                         
 			linccer.send("one-to-many", data);
+			
 		}		
 	</script>
 	
@@ -93,14 +138,14 @@
 		<div>
 			<form method="POST" action="http://localhost:9999/v3/?expires_in=120" id="upload_form">
 				File: <input type="file" name="upload[filename]" />
-				<input type="submit" /> -->
+				<input type="submit" />
 			</form>	
-			<input id="input" type="text" />
+			<!-- <input id="input" type="text" /> -->
 			<br />
 		</div>
 		<div>
-			<a href="javascript:receive_action()">Receive</a>
-			<a href="javascript:send_action()">Send</a>
+			<a href="#" id="receiveButton">Receive</a>
+			<a href="#" id="sendButton">Send</a>
 		</div>
 				
 

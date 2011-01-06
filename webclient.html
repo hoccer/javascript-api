@@ -78,8 +78,12 @@
 		    console.log(uri);
 			});
 			
-			fileCache.on('prograss', function(progress) {
-				console.log(progess);
+			fileCache.on('progress', function(progress) {
+				console.log(progress);
+			});
+			
+			fileCachle.on('submit', function() {
+				
 			});
 			
 			linccer.on('sent', function(data) {

@@ -58,14 +58,28 @@
 		  
 		  client.on('send', function() {
 				console.log('sending');
+				var content = document.getElementById("input").value;
+				var data = [
+				   {
+						"type": "text/plain",
+						"content": content
+						}
+				];
+
+				linccer.send("one-to-many", data);
+				
 			});
 
 			client.on('receive', function() {
-				console.log('receiving');
+				linccer.receive("one-to-many")
 			});
 			
 			fileCache.on('loaded', function(uri) {
 		    console.log(uri);
+			});
+			
+			fileCache.on('prograss', function(progress) {
+				console.log(progess);
 			});
 			
 			linccer.on('sent', function(data) {
@@ -81,8 +95,12 @@
 			});
 			
 			linccer.on('received', function(data) {
-				console.log("received: " + data[0]["0"].content);
-				document.getElementById("input").value = data[0]["0"].content;
+				console.log(data);
+				document.getElementById("input").value = data[0][0].content;
+			});
+			
+			linccer.on('error', function(error) {
+				console.log(error);
 			});
 			
 			if (navigator.geolocation) {
@@ -103,20 +121,10 @@
 		
 
 		function receive_action() {
-			linccer.receive("one-to-many")
 		}
 		
 		function send_action() {
-			var content = document.getElementById("input").value;
-			var data = [
-			   {
-					"type": "text/plain",
-					"content": content
-					}
-			];
-			                         
-			linccer.send("one-to-many", data);
-			
+
 		}		
 	</script>
 	
@@ -144,8 +152,8 @@
 			<!-- <form method="POST"  enctype="multipart/form-data" action="http://localhost:9999/v3/?expires_in=120" id="upload_form">
 				File: <input type="file" name="upload[filename]" />
 				<input type="submit" />
-			</form>	
-			<!-- <input id="input" type="text" /> --> 
+			</form>	//-->
+			<input id="input" type="text" />
 		</div>
 		<div>
 			<a href="#" id="receiveButton">Receive</a>

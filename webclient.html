@@ -24,11 +24,9 @@
 			$("#receiveButton").click(function() {that.fire('receive') } );
 			
 			that.enableSend = function() {
-				
 			};
 			
 			that.enableReceive = function() {
-				
 			};
 			
 			that.displayLocation = function(location) {
@@ -138,8 +136,6 @@
 		#content { width: 500px; margin: 0 auto}
 		#content div { margin-top: 20px;}
 		#location #coordinates { display: none; }
-		
-		#uploadButton {width: 100px; height: 30px; background: red;}
 	</style>
 	
 </head>
@@ -151,18 +147,13 @@
 			<span id="coordinates">32,12 1212</span>
 		</div>
 
-		<div>
-			<div id="uploadButton"></div>
-			
+		<div>			
 			File: <input id="fileInputField" type="file" name="upload[filename]" />
-			<input type="submit" />
 		</div>
 		<div>
 			<a href="#" id="receiveButton">Receive</a>
 			<a href="#" id="sendButton">Send</a>
 		</div>
-				
-		<div id="bla"></div>
 	</div>
 </body>
 </html>

@@ -52,7 +52,7 @@
 		$(document).ready(function() {
 			console.log("loaded");
 			
-			var fileCache = FileCache("uploadButton");
+			var fileCache = FileCache();			
 			var linccer = Linccer();
 		  var client = WebClient();
 		  
@@ -74,17 +74,18 @@
 				linccer.receive("one-to-many")
 			});
 			
-			fileCache.on('loaded', function(uri) {
-		    console.log(uri);
+			fileCache.on('started', function(url) {
+				console.log('started:' + url);
 			});
 			
 			fileCache.on('progress', function(progress) {
 				console.log(progress);
 			});
-			
-			fileCachle.on('submit', function() {
-				
+
+			fileCache.on('uploaded', function(uri) {
+		    console.log("uploaded: " + uri);
 			});
+			
 			
 			linccer.on('sent', function(data) {
 				console.log("sent!!!!!! " + data);
@@ -121,15 +122,15 @@
 	      }
 	      , {maximumAge:Infinity}); 
 	    }
+			
+			$("#fileInputField").change(function() {
+				var file = document.getElementById('fileInputField').files[0];
+				fileCache.upload(file);
+			});
 		});
 		
 
-		function receive_action() {
-		}
 		
-		function send_action() {
-
-		}		
 	</script>
 	
 	<style type="text/css" media="screen">
@@ -153,18 +154,15 @@
 		<div>
 			<div id="uploadButton"></div>
 			
-			<!-- <form method="POST"  enctype="multipart/form-data" action="http://localhost:9999/v3/?expires_in=120" id="upload_form">
-				File: <input type="file" name="upload[filename]" />
-				<input type="submit" />
-			</form>	//-->
-			<input id="input" type="text" />
+			File: <input id="fileInputField" type="file" name="upload[filename]" />
+			<input type="submit" />
 		</div>
 		<div>
 			<a href="#" id="receiveButton">Receive</a>
 			<a href="#" id="sendButton">Send</a>
 		</div>
 				
-
+		<div id="bla"></div>
 	</div>
 </body>
 </html>

@@ -10,11 +10,14 @@
 	<script src="../lib/linccer.js" type="text/javascript" charset="utf-8"></script>
 	
 	<script>
+	
+	var api_key = "1234567890";
+	
   $(document).ready(function(){
 
 		module("Module A");    
 		asyncTest("linccer setup", 2, function() {
-			var linccer = Linccer();
+			var linccer = Linccer({"api_key" : api_key});
 		  linccer.on('ready', function() {
 				ok( linccer.isReady(), "linccer did become ready");
 				start();
@@ -30,7 +33,7 @@
 		asyncTest('environment update', 1, function() {
 			stop(3000);
 			
-			var linccer = Linccer();
+			var linccer = Linccer({"api_key" : api_key});
 		  linccer.on('updated_environment', function() {
 				ok( true, "linccer did updated the environment" );
 				start();
@@ -42,10 +45,10 @@
 		asyncTest('linking', 2, function() {
 			stop(5000);
 			
-			var sender = Linccer("sender");
+			var sender = Linccer({"api_key" : api_key});
 			sender.setEnvironmentCoordinates(52, 13, 100);
 			
-			var receiver = Linccer("receiver");
+			var receiver = Linccer({"api_key" : api_key});
 			receiver.setEnvironmentCoordinates(52, 13, 100);
 		
 			sender.on('ready', function() {
@@ -76,10 +79,10 @@
 			stop(4000);
 		
 			var sent = false;
-			var sender = Linccer("sender");
+			var sender = Linccer({"api_key" : api_key});
 			sender.setEnvironmentCoordinates(52, 13, 100);
 			
-			var receiver = Linccer("receiver");
+			var receiver = Linccer({"api_key" : api_key});
 			receiver.setEnvironmentCoordinates(52, 13, 100);
 		
 			sender.on('ready', function() { send();	});
@@ -103,10 +106,10 @@
 		asyncTest('collision in sending', 1, function() {
 			stop(4000);
 		
-			var sender1 = Linccer("sender");
+			var sender1 = Linccer({"api_key" : api_key});
 			sender1.setEnvironmentCoordinates(55, 13, 100);
 			
-			var sender2 = Linccer("receiver");
+			var sender2 = Linccer({"api_key" : api_key});
 			sender2.setEnvironmentCoordinates(55, 13, 100);
 		
 			sender1.on('ready', function() { send(); });
@@ -130,10 +133,10 @@
 		asyncTest('collision in receiving', 1, function() {
 			stop(4000);
 		
-			var receiver1 = Linccer("sender");
+			var receiver1 = Linccer({"api_key" : api_key});
 			receiver1.setEnvironmentCoordinates(57, 13, 100);
 			
-			var receiver2 = Linccer("receiver");
+			var receiver2 = Linccer({"api_key" : api_key});
 			receiver2.setEnvironmentCoordinates(57, 13, 100);
 		
 			receiver1.on('ready', function() { send();	});

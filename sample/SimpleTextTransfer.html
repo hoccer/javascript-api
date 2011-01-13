@@ -72,27 +72,28 @@
 
 	<script type="text/javascript" charset="utf-8">
 		var linccer;
-		
+		var inputField;
 		window.onload = function() {
 				var locationElement = document.getElementById("coords");
+				inputField = document.getElementById("chat");
 				var logArea = document.getElementById("logTextArea")
-			
+				
 				var log = function(message) {
 					logArea.value += message + "\n";
 				}
 			
-			// if (Linccer.autoLocating()) {
+			if (Linccer.autoLocation()) {
 				linccer = Linccer({"api_key": "123456789", 'server': 'sandbox'});
 				linccer.on('error', function(error) {
-					log('error ' + error.description);
+					log('error ' + error.message);
 				});
 			
 				linccer.on('received', function(data) {
-					log('received')
+					log('received' + data.content);
 				});
 			
 				linccer.on('sent', function(data) {
-					log("sent");
+					log("sent: "+ data.cotent);
 				});
 				
 				linccer.on('ready', function() {
@@ -106,10 +107,10 @@
 				});
 				
 			}
-		// }
+		}
 		
 		function send() {
-			linccer.send('one-to-one', {'content' : 'nix'});
+			linccer.send('one-to-one', {'content' : inputField.value});
 		}
 		
 		function receive() {

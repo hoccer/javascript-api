@@ -103,22 +103,7 @@
 			linccer.on('error', function(error) {
 				console.log(error);
 			});
-			
-			if (navigator.geolocation) {
-	      navigator.geolocation.getCurrentPosition(function(position) {
-	        console.log(position.coords.latitude + " " + position.coords.longitude);
-
-	        linccer.setEnvironmentCoordinates(position.coords.latitude, 
-	          position.coords.longitude, position.coords.accuracy, position.timestamp);
-	
-					$("#coordinates").html( position.coords.latitude + " " + position.coords.longitude );
-	      },
-	      function(error) {
-	        console.log("error:" + error.message);
-	      }
-	      , {maximumAge:Infinity}); 
-	    }
-			
+						
 			$("#fileInputField").change(function() {
 				var file = document.getElementById('fileInputField').files[0];
 				fileCache.upload(file);

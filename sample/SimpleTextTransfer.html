@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>SimpleTextTransfer</title>
+	<script src="../lib/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/linccer.js" type="text/javascript" charset="utf-8"></script>
+
+	<style type="text/css" media="screen">
+		body {
+			font-family: sans-serif;
+			padding: 0; margin: 0;
+			background: #d7d7d7;
+		}
+		
+		h1 {
+			padding: 10px 0; margin: 0;
+			font-size: 20px;
+		}
+		
+		#location {
+			padding: 10px 0 30px;
+		}
+		
+		#buttons {
+			height: 70px;
+			width: 265px;
+			
+			padding-top: 10px;
+			margin: 0 auto;
+		}
+		
+		.button {
+			width: 80px;
+			margin: 5px;
+			padding: 13px 20px;
+			background-color: lightgray;
+			
+			text-align: center;
+			
+			float:left;
+		}
+		
+		#content {
+			background: white;
+			width: 320px;
+			height: 480px;
+			padding: 10px;
+			margin: 0 auto;
+		}
+		
+		input, textarea {
+			font-size: 30px;
+		}
+		
+		input[type=text], textarea {
+			font-size: 16px;
+			width: 320px;
+		}
+		
+		#log {
+			margin-top: 20px;
+		}
+		
+		textarea {
+			height: 180px;
+		}		
+	</style>
+
+	<script type="text/javascript" charset="utf-8">
+		var linccer;
+		
+		window.onload = function() {
+				var locationElement = document.getElementById("coords");
+				var logArea = document.getElementById("logTextArea")
+			
+				var log = function(message) {
+					logArea.value += message + "\n";
+				}
+			
+			// if (Linccer.autoLocating()) {
+				linccer = Linccer({"api_key": "123456789", 'server': 'sandbox'});
+				linccer.on('error', function(error) {
+					log('error ' + error.description);
+				});
+			
+				linccer.on('received', function(data) {
+					log('received')
+				});
+			
+				linccer.on('sent', function(data) {
+					log("sent");
+				});
+				
+				linccer.on('ready', function() {
+					log("ready - linccer is now usable");
+				});
+				
+				linccer.on('updated_environment', function(data) {
+					log('updated_environment');
+					locationElement.innerHTML = data.gps.latitude + " " + 
+								data.gps.longitude + " ~" + data.gps.accuracy + "m";
+				});
+				
+			}
+		// }
+		
+		function send() {
+			linccer.send('one-to-one', {'content' : 'nix'});
+		}
+		
+		function receive() {
+			linccer.receive('one-to-one');
+		}
+		
+		
+		
+	</script>
+
+</head>
+
+<body>
+	<div id="content">
+		<h1>Simple Linccer Demo</h1>
+		<div id="location">
+		Your Location:<br /> <span id="coords">locating...</span>
+		</div>
+		
+		Message:
+		<input id="chat" type="text" />
+
+		<div id="buttons">
+		<a href="javascript:send()"><div class="button" value="send">Send</div></a>
+		<a href="javascript:receive()"><div class="button" value="receive">Receive</div></a>
+		</div>
+		<div id="log">
+			Log:
+			<textarea id="logTextArea"></textarea>
+		</div>
+	</div>
+</body>
+</html>

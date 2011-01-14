@@ -1,0 +1,46 @@
+Linccer JavaScript API
+
+Add NFC-like functionality to your browser.
+
+Linccer groups clients by their environment.
+
+h2. Initialize the Linccer. The Linncer methods takes an options hash. 
+
+var linncer = Linccer({"api_key": "your_api_key", "server": "sandbox" });
+
+
+h2. Setting the environment.
+
+If you use Linccer in a browser which supports the geolocation api (navigator.geolocation object), 
+the location will be set automatically. 
+
+bc..
+if (!Linccer.autocomplete) {
+	linccer.setEnvironmentCoordinates(longitude, latitude, accuracy);
+}
+
+h2. Register for some events
+
+Currently Linccer supports 'received', 'sent', 'error', 'updated_environment', 'ready'.
+The ready event is fired when Linncer is registered with the server.
+
+bc..
+linccer.on('ready', function() {
+
+});
+
+linccer.on('received', function(data) {
+});
+
+linccer.on('error', function() {
+});
+
+
+h2. Share and Receive
+
+When Linccer is ready, use the send and receive methods to exchange data between websites.
+
+linccer.send('one-to-many', {user : 'robert'});
+linccer.receive('ont_to_many');
+
+ 

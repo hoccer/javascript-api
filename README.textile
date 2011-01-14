@@ -23,7 +23,14 @@ if (!Linccer.autocomplete()) {
 
 h2. Register for some events
 
-Currently Linccer supports bc. 'received', 'sent', 'error', 'updated_environment', 'ready'.
+Currently Linccer supports 
+bc. 
+received 
+
+, bc.
+sent'
+
+, 'error', 'updated_environment', 'ready'.
 The ready event is fired when Linncer is registered with the server.
 
 bc.. 

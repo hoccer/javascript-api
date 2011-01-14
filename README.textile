@@ -37,7 +37,7 @@ h2. Share and Receive
 
 When Linccer is ready, use the send and receive methods to exchange data between websites.
 
-bc.. linccer.send('one-to-many', {user : 'robert'});
+bc. linccer.send('one-to-many', {user : 'robert'});
 linccer.receive('ont_to_many');
 
 "Sample Code":https://github.com/hoccer/javascript/blob/master/sample/SimpleTextTransfer.html

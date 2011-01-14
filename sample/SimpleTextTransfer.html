@@ -12,107 +12,48 @@
 	<script src="https://github.com/hoccer/javascript/raw/master/lib/base.js" type="text/javascript" 	charset="utf-8"></script>
 	<script src="https://github.com/hoccer/javascript/raw/master/lib/linccer.js" type="text/javascript" charset="utf-8"></script>
 
-	<style type="text/css" media="screen">
-		body {
-			font-family: sans-serif;
-			font-size: 14px;
-			padding: 0; margin: 0;
-			
-			background-color: #fbfbfb;
-		}
-		
-		h1 {
-			padding: 10px 5px; 
-			margin: 0 0;
-			font-size: 16px;
-			
-			background-color: #eee;
-		}
-		
-		#location {
-			padding: 10px 5px 10px;
-		}
-		
-		#content {
-			width: 320px;
-			height: 480px;
-			padding: 0;
-			margin: 0 auto;
-		}
-		
-		#header {
-			padding: 0 5px;
-		}
-		
-		#send, #receive {
-			padding: 15px 5px 15px;
-			clear: both;
-		}
-		
-		input[type=text], textarea {
-			font-size: 15px;
-			width: 200px;
-		}
-		
-		input[type=button] {
-			font-size: 15px;
-			width: 90px;
-		}
-		
-		#receive_field {
-			display: none;
-		}
-		
-		#log {
-			display: none;
-			margin-top: 20px;
-		}
-		
-		textarea {
-			height: 180px;
-		}		
-	</style>
-
+	<link rel="stylesheet" href="images/sytle.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	
 	<script type="text/javascript" charset="utf-8">
-		var linccer;
 		var inputField, outputField;
 		var sendButton, receiveButton;
 		var locationElement;
-		
+
+		var linccer;
+
 		window.onload = function() {
-				locationElement = document.getElementById("coords");
-				inputField = document.getElementById("send_field");
-				outputField = document.getElementById("receive_field");
-				logArea = document.getElementById("logTextArea")
-				sendButton = document.getElementById("send_button");
-				receiveButton = document.getElementById("receive_button");
-				
-				
-				var log = function(message) {
-					logArea.value += message + "\n";
-				}
-			
+			locationElement = document.getElementById("coords");
+			inputField = document.getElementById("send_field");
+			outputField = document.getElementById("receive_field");
+			logArea = document.getElementById("logTextArea")
+			sendButton = document.getElementById("send_button");
+			receiveButton = document.getElementById("receive_button");
+							
 			if (Linccer.autoLocation()) {
+				// initialize a new linccer
 				linccer = Linccer({"api_key": "123456789", 'server': 'sandbox'});
 				
+				// add several event listener
 				linccer.on('error', function(error) {
 					alert(error.message);
-					sendButton.disabled = false;
-					receiveButton.disabled = false;
+					
+					if (error.message == "timeout" || error.message == "conflict") {
+						unblock(sendButton);
+						unblock(receiveButton);
+					}
 				});
 			
 				linccer.on('received', function(data) {
-					log('received: ' + data[0].content);
+					unblock(receiveButton);
 					outputField.value = data[0].content;
+					outputField.style.visibility = 'visible';
 				});
 			
-				// returns the sent data wrapped in an array. 
 				linccer.on('sent', function(data) {
-					log("sent: "+ data[0].content);
+					unblock(sendButton);
 				});
 				
 				linccer.on('ready', function() {
-					log("ready - linccer is now usable");
 				});
 				
 				linccer.on('updated_environment', function(data) {
@@ -125,17 +66,29 @@
 			}
 		}
 		
-		
-		
 		function send() {
 			linccer.send('one-to-one', {'content' : inputField.value});
-			sendButton.disabled = true;
+			block(sendButton);
 		}
 		
 		function receive() {
 			linccer.receive('one-to-one');
-			receiveButton.disabled = true;
+			block(receiveButton);
 		}
+		
+		function block(element) {
+			element.tmp = element.innerHTML;
+			element.innerHTML = '<img src="images/ajax-loader.gif" width="14" height="14">'
+		}
+		
+		function unblock(element) {
+			if (element.tmp !== undefined) {
+				element.innerHTML = element.tmp;
+			}
+			
+			delete element.tmp
+		}
+		
 		
 	</script>
 
@@ -156,14 +109,14 @@
 		<div id="send">
 			Send text to another device.
 			<input id="send_field" type="text" />
-			<input id="send_button" type="button" value="Send" onClick="send()" />
+			<span id="send_button"><input type="button" value="Send" onClick="send()" /></span>
 		</div>
 		
 		<hr />
 		
 		<div id="receive">
 			Receive text from another device.<br />
-			<input id="receive_button" type="button" value="Receive" onClick="receive()" />
+			<span id="receive_button"><input type="button" value="Receive" onClick="receive()" /></span>
 			<input id="receive_field" type="text" />
 		</div>
 		

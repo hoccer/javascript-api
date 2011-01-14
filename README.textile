@@ -11,8 +11,6 @@ The Linccer methods takes an options hash.
 bc.. 
 var linncer = Linccer({"api_key": "your_api_key", "server": "sandbox" });
 
-p.
-
 h2. Setting the environment.
 
 If you use Linccer in a browser which supports the geolocation api (navigator.geolocation object), 
@@ -23,11 +21,9 @@ if (!Linccer.autocomplete()) {
 	linccer.setEnvironmentCoordinates(longitude, latitude, accuracy);
 }
 
-p.
-
 h2. Register for some events
 
-Currently Linccer supports 'received', 'sent', 'error', 'updated_environment', 'ready'.
+Currently Linccer supports bc. 'received', 'sent', 'error', 'updated_environment', 'ready'.
 The ready event is fired when Linncer is registered with the server.
 
 bc.. 
@@ -40,8 +36,6 @@ linccer.on('received', function(data) {
 linccer.on('error', function() {
 });
 
-p.
-
 h2. Share and Receive
 
 When Linccer is ready, use the send and receive methods to exchange data between websites.
@@ -49,6 +43,3 @@ When Linccer is ready, use the send and receive methods to exchange data between
 bc.. 
 linccer.send('one-to-many', {user : 'robert'});
 linccer.receive('ont_to_many');
-
-p.
- 

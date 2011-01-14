@@ -12,7 +12,7 @@ bc.. var linncer = Linccer({"api_key": "your_api_key", "server": "sandbox" });
 
 h2. Setting the environment.
 
-If you use Linccer in a browser which supports the geolocation api (navigator.geolocation object), 
+If you use Linccer in a browser which supports the geolocation api (@navigator.geolocation@ object), 
 the location will be set automatically. 
 
 bc.. if (!Linccer.autoLocate()) {

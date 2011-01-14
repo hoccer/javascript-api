@@ -1,4 +1,4 @@
-Linccer JavaScript API
+h1. Linccer JavaScript API
 
 Add NFC-like functionality to your browser.
 
@@ -19,7 +19,7 @@ If you use Linccer in a browser which supports the geolocation api (navigator.ge
 the location will be set automatically. 
 
 bc..
-if (!Linccer.autocomplete) {
+if (!Linccer.autocomplete()) {
 	linccer.setEnvironmentCoordinates(longitude, latitude, accuracy);
 }
 

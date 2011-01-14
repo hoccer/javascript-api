@@ -89,11 +89,11 @@
 				});
 			
 				linccer.on('received', function(data) {
-					log('received' + data.content);
+					log('received: ' + data.content);
 				});
 			
 				linccer.on('sent', function(data) {
-					log("sent: "+ data.cotent);
+					log("sent: "+ data.content);
 				});
 				
 				linccer.on('ready', function() {

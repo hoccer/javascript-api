@@ -6,7 +6,7 @@ Linccer groups clients by their environment.
 
 h2. Initialize the Linccer.
 
-The Linncer methods takes an options hash. 
+The Linccer methods takes an options hash. 
 
 bc..
 var linncer = Linccer({"api_key": "your_api_key", "server": "sandbox" });

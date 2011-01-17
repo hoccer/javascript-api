@@ -6,14 +6,16 @@ Linccer groups clients by their environment.
 
 h2. Initialize the Linccer.
 
-The Linccer methods takes an options hash. 
+The Linccer methods takes an options hash. An Api Key must be specified, additionally it
+can be toggled between the production and the sandbox server.
+You should use the sandbox server for development, you must use the production server in a shiping product (just omit the server option).
 
 bc.. var linncer = Linccer({"api_key": "your_api_key", "server": "sandbox" });
 
 h2. Setting the environment.
 
 If you use Linccer in a browser which supports the geolocation api (@navigator.geolocation@ object), 
-the location will be set automatically. 
+the location will be set automatically. Otherwise the location can be set manually.
 
 bc.. if (!Linccer.autoLocate()) {
 	linccer.setEnvironmentCoordinates(longitude, latitude, accuracy);
@@ -22,7 +24,8 @@ bc.. if (!Linccer.autoLocate()) {
 h2. Register for some events
 
 Currently Linccer supports @received@, @sent@, @error@, @updated_environment@, @ready@.
-The ready event is fired when Linncer is registered with the server.
+The ready event is fired when the Linncer has registered itself with the server (send the first
+environment update).
 
 bc.. linccer.on('ready', function() {
 });
@@ -40,4 +43,5 @@ When Linccer is ready, use the send and receive methods to exchange data between
 bc. linccer.send('one-to-many', {user : 'robert'});
 linccer.receive('ont_to_many');
 
-"Sample Code":https://github.com/hoccer/javascript/blob/master/sample/SimpleTextTransfer.html
+"Sample Code":https://github.com/hoccer/javascript/blob/master/sample/simple.html
+"Demo":http://developer.hoccer.com/demo/simple.com

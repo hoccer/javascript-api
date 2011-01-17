@@ -9,8 +9,10 @@
 	<meta name = "viewport" content = "width = 320,
 	       initial-scale = 1, user-scalable = no">
 	<meta name="apple-mobile-web-app-capable" content="yes" />
-	<script src="http://linccer.beta.hoccer.com/linccer.min.js" type="text/javascript" charset="utf-8"></script>
-
+	<script src="http://linccer.beta.hoccer.com/v3/linccer.min.js" type="text/javascript" charset="utf-8"></script>
+	<!-- <script src="../lib/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../lib/linccer.js" type="text/javascript" charset="utf-8"></script> -->
+	
 	<link rel="stylesheet" href="images/sytle.css" type="text/css" media="screen" title="no title" charset="utf-8">
 	
 	<script type="text/javascript" charset="utf-8">
@@ -30,7 +32,7 @@
 							
 			if (Linccer.autoLocation()) {
 				// initialize a new linccer
-				linccer = Linccer({"api_key": "123456789", 'server': 'sandbox'});
+				linccer = Linccer({"api_key": "123456789", 'server': 'beta'});
 				
 				// add several event listener
 				linccer.on('error', function(error) {
@@ -96,7 +98,7 @@
 <body>
 	<div id="content">
 		<div id="header">
-			<a href="developer.hoccer.com"><img src="/images/logo.jpg"></a>
+			<a href="developer.hoccer.com"><img src="images/logo.jpg"></a>
 		</div>
 		<h1>Linccer Demo</h1>
 		<div id="location">

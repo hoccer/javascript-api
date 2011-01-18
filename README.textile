@@ -39,9 +39,10 @@ linccer.on('error', function() {
 h2. Share and Receive
 
 When Linccer is ready, use the send and receive methods to exchange data between websites.
+Both action need to be triggered simultaniously.
 
 bc. linccer.send('one-to-many', {user : 'robert'});
-linccer.receive('ont_to_many');
+linccer.receive('ont-to-many');
 
 "Sample Code":https://github.com/hoccer/javascript/blob/master/sample/simple.html
 "Demo":http://developer.hoccer.com/demo/simple.html

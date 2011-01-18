@@ -6,7 +6,11 @@ Linccer groups clients by their environment.
 
 h2. Initialize the Linccer.
 
-The Linccer methods takes an options hash. An Api Key must be specified, additionally it
+Add the script to your website:
+
+bc. <script src="http://linccer.beta.hoccer.com/v3/linccer.min.js" type="text/javascript" charset="utf-8"></script>
+
+Then initialize a new linccer. THe Linccer methods takes an options hash. An api key must be specified, additionally it
 can be toggled between the production and the sandbox server.
 You should use the sandbox server for development, you must use the production server in a shiping product (just omit the server option).
 

@@ -17,7 +17,7 @@
 
 		module("Module A");    
 		asyncTest("linccer setup", 2, function() {
-			var linccer = Linccer({"api_key" : api_key});
+			var linccer = Linccer({"api_key" : api_key, server: "beta" });
 		  linccer.on('ready', function() {
 				ok( linccer.isReady(), "linccer did become ready");
 				start();
@@ -33,7 +33,7 @@
 		asyncTest('environment update', 1, function() {
 			stop(3000);
 			
-			var linccer = Linccer({"api_key" : api_key});
+			var linccer = Linccer({"api_key" : api_key, server: "beta"});
 		  linccer.on('updated_environment', function() {
 				ok( true, "linccer did updated the environment" );
 				start();
@@ -45,10 +45,10 @@
 		asyncTest('linking', 2, function() {
 			stop(5000);
 			
-			var sender = Linccer({"api_key" : api_key});
+			var sender = Linccer({"api_key" : api_key, server: "beta"});
 			sender.setEnvironmentCoordinates(52, 13, 100);
 			
-			var receiver = Linccer({"api_key" : api_key});
+			var receiver = Linccer({"api_key" : api_key, server: "beta"});
 			receiver.setEnvironmentCoordinates(52, 13, 100);
 		
 			sender.on('ready', function() {
@@ -67,7 +67,7 @@
 			
 			var send = function() {
 				if (sender.isReady() && receiver.isReady()) {
-					sender.send('one-to-one', {"hallo": "world"});
+					sender.send('one-to-one', {"hallo": "world", server: "beta"});
 					receiver.receive('one-to-one');
 					
 					sent = true;
@@ -79,10 +79,10 @@
 			stop(4000);
 		
 			var sent = false;
-			var sender = Linccer({"api_key" : api_key});
+			var sender = Linccer({"api_key" : api_key, server: "beta"});
 			sender.setEnvironmentCoordinates(52, 13, 100);
 			
-			var receiver = Linccer({"api_key" : api_key});
+			var receiver = Linccer({"api_key" : api_key, server: "beta"});
 			receiver.setEnvironmentCoordinates(52, 13, 100);
 		
 			sender.on('ready', function() { send();	});
@@ -106,10 +106,10 @@
 		asyncTest('collision in sending', 1, function() {
 			stop(4000);
 		
-			var sender1 = Linccer({"api_key" : api_key});
+			var sender1 = Linccer({"api_key" : api_key, server: "beta"});
 			sender1.setEnvironmentCoordinates(55, 13, 100);
 			
-			var sender2 = Linccer({"api_key" : api_key});
+			var sender2 = Linccer({"api_key" : api_key, server: "beta"});
 			sender2.setEnvironmentCoordinates(55, 13, 100);
 		
 			sender1.on('ready', function() { send(); });
@@ -133,10 +133,10 @@
 		asyncTest('collision in receiving', 1, function() {
 			stop(4000);
 		
-			var receiver1 = Linccer({"api_key" : api_key});
+			var receiver1 = Linccer({"api_key" : api_key, server: "beta"});
 			receiver1.setEnvironmentCoordinates(57, 13, 100);
 			
-			var receiver2 = Linccer({"api_key" : api_key});
+			var receiver2 = Linccer({"api_key" : api_key, server: "beta"});
 			receiver2.setEnvironmentCoordinates(57, 13, 100);
 		
 			receiver1.on('ready', function() { send();	});

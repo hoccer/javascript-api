@@ -8,7 +8,7 @@ h2. Initialize the Linccer.
 
 Add the script to your website:
 
-bc. <script src="http://linccer.beta.hoccer.com/v3/linccer.min.js" type="text/javascript" charset="utf-8"></script>
+bc. <script src="http://linccer.sandbox.hoccer.com/v3/linccer.min.js" type="text/javascript" charset="utf-8"></script>
 
 Then initialize a new linccer. THe Linccer methods takes an options hash. An api key must be specified, additionally it
 can be toggled between the production and the sandbox server.

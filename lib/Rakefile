@@ -1,0 +1,4 @@
+task :compress do
+  %x(juicer merge base.js linccer.js  -o linccer.min.js --force -i)
+  puts "compressed to linccer.min.js"
+end

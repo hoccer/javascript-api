@@ -45,5 +45,5 @@ Both action need to be triggered simultaneously.
 bc. linccer.send('one-to-many', {user : 'robert'});
 linccer.receive('ont-to-many');
 
-"Sample Code":https://github.com/hoccer/javascript/blob/master/sample/simple.html
+"Sample Code":https://github.com/hoccer/javascript-api/blob/master/sample/simple.html
 Demo "http://hccr.ws/linccer":http://hccr.ws/linccer (best viewed on two different devices)

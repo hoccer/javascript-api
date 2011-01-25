@@ -1,8 +1,6 @@
 h1. Linccer JavaScript API
 
-Add NFC-like functionality to your browser.
-
-Linccer groups clients by their environment.
+Add NFC-like functionality to your browser with this Javascript API for Linccer.
 
 h2. Initialize the Linccer.
 
@@ -10,9 +8,8 @@ Add the script to your website:
 
 bc. <script src="http://linccer.sandbox.hoccer.com/v3/linccer.min.js" type="text/javascript" charset="utf-8"></script>
 
-Then initialize a new linccer. THe Linccer methods takes an options hash. An api key must be specified, additionally it
-can be toggled between the production and the sandbox server.
-You should use the sandbox server for development, you must use the production server in a shiping product (just omit the server option).
+Then initialize a new linccer object. The Linccer methods takes an options hash. An API key must be specified, additionally it can be toggled between the production and the sandbox server.
+You should use the sandbox server for development, you must use the production server in a shipping product (just omit the server option).
 
 bc.. var linncer = Linccer({"api_key": "your_api_key", "server": "sandbox" });
 
@@ -28,7 +25,7 @@ bc.. if (!Linccer.autoLocate()) {
 h2. Register for some events
 
 Currently Linccer supports @received@, @sent@, @error@, @updated_environment@, @ready@.
-The ready event is fired when the Linncer has registered itself with the server (sent the first
+The ready event is fired when the Linccer has registered itself with the server (sent the first
 environment update).
 
 bc.. linccer.on('ready', function() {
@@ -43,7 +40,7 @@ linccer.on('error', function() {
 h2. Share and Receive
 
 When Linccer is ready, use the send and receive methods to exchange data between websites.
-Both action need to be triggered simultaniously.
+Both action need to be triggered simultaneously.
 
 bc. linccer.send('one-to-many', {user : 'robert'});
 linccer.receive('ont-to-many');

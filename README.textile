@@ -22,9 +22,17 @@ bc.. if (!Linccer.autoLocate()) {
 	linccer.setEnvironmentCoordinates(longitude, latitude, accuracy);
 }
 
+h3. Environment configuration
+
+With Linncer you can define some environmental variables as @bssids@, @selected_clients@, @client_name@. Just make use of three methodes to redefine the updateEnvironment method.
+
+bc.. linccer.setName(_client_name);
+linccer.setBssids(_bssids);
+linccer.setClients(_selected_clients);
+
 h2. Register for some events
 
-Currently Linccer supports @received@, @sent@, @error@, @updated_environment@, @ready@.
+Currently Linccer supports @received@, @sent@, @error@, @updated_environment@, @ready@, @peek@, @deleteClient@.
 The ready event is fired when the Linccer has registered itself with the server (sent the first
 environment update).
 
@@ -35,6 +43,9 @@ linccer.on('received', function(data) {
 });
  
 linccer.on('error', function() {
+});
+ 
+linccer.on('deletedClient', function() {
 });
 
 h2. Share and Receive
